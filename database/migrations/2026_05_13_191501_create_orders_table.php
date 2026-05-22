@@ -12,25 +12,35 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-
             $table->id();
 
-            // 🔗 user yang order
-            $table->foreignId('user_id')->nullable();
+            // USER YANG ORDER
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
 
-            // 👤 data customer
+            // DATA CUSTOMER
             $table->string('customer_name');
             $table->string('phone');
             $table->text('address');
 
-            // 💰 total
+            // TOTAL HARGA
             $table->integer('total_price');
 
-            // 📦 status order
-            $table->string('status')->default('pending');
+            // STATUS ORDER (termasuk status pengiriman/shipping)
+            $table->enum('status', [
+                'pending',
+                'process',
+                'shipping',
+                'done',
+                'cancel'
+            ])->default('pending');
 
-            // 💳 pembayaran
-            $table->string('payment_method')->nullable();
+            // PAYMENT
+            $table->string('payment_method');
+
+            // BUKTI FOTO PENGIRIMAN KURIR
+            $table->string('proof_image')->nullable();
 
             $table->timestamps();
         });

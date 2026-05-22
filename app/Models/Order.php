@@ -9,9 +9,13 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id',
+        'customer_name',
+        'phone',
+        'address',
         'total_price',
         'status',
-        'payment_method'
+        'payment_method',
+        'proof_image'
     ];
 
     // 🔗 Order milik User
